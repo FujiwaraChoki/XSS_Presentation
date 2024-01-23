@@ -3,29 +3,57 @@
 
 <head>
     <meta charset="UTF-8">
+    <!--Favicon-->
+    <link rel="icon" href="goku.jpeg" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XSS Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        html,
+        body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #3490dc;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #2779bd;
+        }
+    </style>
 </head>
 
-<body>
-    Search
-    <form method="GET">
-        <input type="text" name="query" />
-        <input type="submit" value="Search" />
-    </form>
-    <div id="result"></div>
-    <script>
-        // Get query from URL parameters
-        var query = new URLSearchParams(window.location.search).get("query")
+<body class="font-sans bg-gray-100 p-4">
+    <div class="max-w-md mx-auto bg-white rounded p-6 shadow-md"><h1 class="text-2xl font-bold mb-4">XSS Demo</h1>
+        <label for="query" class="block text-sm font-medium text-gray-700">Search</label>
+        <form method="GET" class="mt-2">
+            <input type="text" name="query" id="query" class="border rounded w-full py-2 px-3">
+            <button type="submit" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Search</button>
+        </form>
+        <div id="result" class="mt-4"></div>
+        <script>
+            // Get query from URL parameters, so it's vulnerable to XSS
+            const query = new URLSearchParams(window.location.search).get("query")
 
-        if (query) {
-            // Display search term
-            document.getElementById("result").innerHTML = "You searched for: " + query;
+            if (query) {
+                // Display search term
+                document.getElementById("result").innerHTML = "You searched for: " + query;
 
-            // Set cookie for search term
-            document.cookie = "search=" + query + "; path=/";
-        }
-    </script>
+                // Set cookie for search term
+                document.cookie += "query=" + query;
+                const queryElement = document.getElementById("query");
+                queryElement.value = query;
+            }
+        </script>
+    </div>
 </body>
 
 </html>
