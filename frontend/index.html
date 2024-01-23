@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Demo</title>
+</head>
+
+<body>
+    Search
+    <form method="GET">
+        <input type="text" name="query" />
+        <input type="submit" value="Search" />
+    </form>
+    <div id="result"></div>
+    <script>
+        // Get query from URL parameters
+        var query = new URLSearchParams(window.location.search).get("query")
+
+        if (query) {
+            // Display search term
+            document.getElementById("result").innerHTML = "You searched for: " + query;
+
+            // Set cookie for search term
+            document.cookie = "search=" + query + "; path=/";
+        }
+    </script>
+</body>
+
+</html>
